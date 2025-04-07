@@ -50,5 +50,40 @@ CREATE_FUNC(test1, "this is function test1()");
 CREATE_FUNC(test2, "this is function test2()");
 CREATE_FUNC(test3, "this is function test3()");
 ```
+__Các toán tử trong #define__
++ '##' được sử dụng để nối chuỗi
 
+``` bash
 
+#define CREATE_VAR(name)    \
+int int_##name;             \
+double double_##name;       \
+
+```
+
++ '#' chuẩn hoá đoạn văn bản thành chuỗi
+
+``` bash
+
+#define CREATE_STRING(cmd)    \
+        printf(#cmd)          
+```
++ 'variadic' cho phép hàm có thể nhận một số lượng tham số truyền vào không xác định, dấu 3 chấm chính là cho trình biên dịch biết tham số truyền vào không xác định
+
+``` bash
+#define sum(...) __VA_ARGS__
+```
+Ví dụ để tính tổng dùng variadic:
+
+``` bash
+#define sum(...)               \
+int arr[] = {__VA_ARGS__,0}    \
+int sum = 0;                   \
+int i = 0;                     \
+while(arr[i] != 0)             \
+{                              \
+   sum += arr[i];              \
+   i++;                        \  
+}                              \
+printf("Sum = %d\n", sum);    
+```
