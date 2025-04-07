@@ -24,4 +24,14 @@ __Ta nhận thấy trong file main.i có những đặc điểm sau:__
 + Những macro cũng bị thay thế 
 + Biến và các identifiers còn lại được giữ nguyên
 
+### Macro trong C
+ Là những từ mà chỉ những thông tin được xử lý ở quá trình tiền xử lý, có nhiều loại macro
++ #include là một loại macro, được gọi là chỉ thị bao hàm tệp
++ Khi quá trình tiền xử lý xảy ra nó sẽ bắt đầu copy toàn bộ source code từ những file này vào file .i
+ #inlude có 2 dạng: <> và ""
++ File nằm trong <> sẽ được tìm kiếm trong thư mục cài đặt VS Code, sau đó copy vào file .i
++ File nằm trong "" sẽ được tìm kiếm trong thư mục hiện tại để copy vào file .i
++ Lưu ý: file chưa qua xử lý được gọi là source code, file .i không được gọi là source code
+
+
 
