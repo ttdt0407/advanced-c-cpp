@@ -11,6 +11,7 @@ __Quá trình biên dịch của compiler, cụ thể ở đây là gcc sẽ tr�
 ## Bước 1: Preprocessing (tiền xử lý)
 
 + Từ những file .h và .c sau quá trình tiền xử lý tạo ra 1 file main.i
+(expanded source code)
 
 + Câu lệnh để tạo ra file main.i:
 
@@ -25,13 +26,29 @@ __Ta nhận thấy trong file main.i có những đặc điểm sau:__
 + Biến và các identifiers còn lại được giữ nguyên
 
 ### Macro trong C
- Là những từ mà chỉ những thông tin được xử lý ở quá trình tiền xử lý, có nhiều loại macro
-+ #include là một loại macro, được gọi là chỉ thị bao hàm tệp
+Là những từ mà chỉ những thông tin được xử lý ở quá trình tiền xử lý, có nhiều loại macro
+
+__#include là một loại macro, được gọi là chỉ thị bao hàm tệp__
 + Khi quá trình tiền xử lý xảy ra nó sẽ bắt đầu copy toàn bộ source code từ những file này vào file .i
  #inlude có 2 dạng: <> và ""
-+ File nằm trong <> sẽ được tìm kiếm trong thư mục cài đặt VS Code, sau đó copy vào file .i
++ File nằm trong <> sẽ được tìm kiếm trong thư mục hệ thống của compiler, sau đó copy vào file .i
 + File nằm trong "" sẽ được tìm kiếm trong thư mục hiện tại để copy vào file .i
 + Lưu ý: file chưa qua xử lý được gọi là source code, file .i không được gọi là source code
 
+__#define là một loại macro, được gọi là chỉ thị định nghĩa__
++ Định nghĩa mà không quan tâm kiểu dữ liệu là gì, có thể là chuỗi, hàm, số nguyên, số thực,...
++ Có thể sử dụng macro để tạo ra mã nguồn cho nhiều hàm khác nhau thông qua việc thay thế văn bản.:
+
+``` bash
+#define CREATE_FUNC(name, cmd)   \
+void name()                      \
+{                                \ 
+    printf(cmd);                 \
+}
+
+CREATE_FUNC(test1, "this is function test1()");
+CREATE_FUNC(test2, "this is function test2()");
+CREATE_FUNC(test3, "this is function test3()");
+```
 
 
