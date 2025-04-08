@@ -29,7 +29,7 @@ __Ta nhận thấy trong file main.i có những đặc điểm sau:__
 Là những từ mà chỉ những thông tin được xử lý ở quá trình tiền xử lý, có nhiều loại macro
 
 __#include là một loại macro, được gọi là chỉ thị bao hàm tệp__
-+ Khi quá trình tiền xử lý xảy ra nó sẽ bắt đầu copy toàn bộ source code từ những file này vào file .i
++ Khi quá trình tiền xử lý xảy ra nó sẽ bắt đầu copy toàn bộ code từ những file này vào file .i
  #inlude có 2 dạng: <> và ""
 + File nằm trong <> sẽ được tìm kiếm trong thư mục hệ thống của compiler, sau đó copy vào file .i
 + File nằm trong "" sẽ được tìm kiếm trong thư mục hiện tại để copy vào file .i
@@ -77,7 +77,7 @@ Ví dụ để tính tổng dùng variadic:
 
 ``` bash
 #define sum(...)               \
-int arr[] = {__VA_ARGS__,0}    \
+int arr[] = {__VA_ARGS__,0};    \
 int sum = 0;                   \
 int i = 0;                     \
 while(arr[i] != 0)             \
@@ -87,3 +87,55 @@ while(arr[i] != 0)             \
 }                              \
 printf("Sum = %d\n", sum);    
 ```
+__#undef dùng để huỷ định nghĩa trước đó đã được sử dụng__
+
+``` bash
+
+#define DATA 50
+
+
+int main(int argc, char const *argv[])
+{
+    #undef DATA
+    #define DATA 20
+
+    printf("data = %d", data);
+    
+    return 0;
+}
+```
+
+__#ifndef, #ifdef, #else, #if, #elif được gọi là chỉ thị điều kiện dùng để kiểm tra sự tồn tại của 1 macro__
+
++ #ifdef dùng để kiểm tra xem 1 macro đã được định nghĩa hay chưa. Nếu đã được định nghĩa, các đoạn mã bên trong sẽ được biên dịch, được kết thúc bằng #endif
+
+```bash
+#define DATA 5
+
+#ifdef DATA
+    int arr[DATA] = {1,2,3,4,5};
+#endif
+```
++ #ifndef dùng để kiểm tra xem 1 macro đã được định nghĩa chưa. Nếu chưa các đoạn mã bên trong sẽ được biên dịch, được kết thúc bằng #endif
+
+```bash
+#ifndef DATA
+
+#define DATA
+    int arr[DATA] = {1,2,3,4,5};
+#endif
+```
++ #ifdef và #ifndef thường được sử dụng để thiết kế thư viện, ví dụ trong file .h
+
+```bash
+
+#ifndef TEST_H
+#define TEST_H
+
+void display();
+
+#endif
+```
++ 
+
+
