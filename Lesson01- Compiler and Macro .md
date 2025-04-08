@@ -37,7 +37,7 @@ __#include là một loại macro, được gọi là chỉ thị bao hàm tệp
 
 __#define là một loại macro, được gọi là chỉ thị định nghĩa__
 + Định nghĩa mà không quan tâm kiểu dữ liệu là gì, có thể là chuỗi, hàm, số nguyên, số thực,...
-+ Có thể sử dụng macro để tạo ra mã nguồn cho nhiều hàm khác nhau thông qua việc thay thế văn bản.:
++ Có thể sử dụng macro để tạo ra mã nguồn cho nhiều hàm khác nhau thông qua việc thay thế văn bản:
 
 ``` bash
 #define CREATE_FUNC(name, cmd)   \
@@ -136,6 +136,63 @@ void display();
 
 #endif
 ```
-+ 
++ #if, #elif, #else là các chỉ thị điều kiện tiền xử lý trong C/C++ cho phép bạn kiểm tra các biểu thức (phải là hằng số) và quyết định compile đoạn mã nào
+
+```bash
+
+#define STM32 1
+#define ESP32 2
+#define ATMEGA324 3
+
+#define MCU STM32
+
+
+#if MCU == STM32
+    void digitalWrite(Pin pin, Status state)
+    {
+        // Digital write
+    }
+
+#elif MCU == ATMEGA324
+    void digitalWrite(Pin pin, Status state)
+    {
+        // Digital write
+    }
+#else 
+    void digitalWrite(Pin pin, Status state)
+    {
+        // Digital write
+    }
+#endif
+
+```
+## Bước 2: Compilation
+
++ Chuyển file main.i thành file main.s (hợp ngữ)
++ Có câu lệnh như sau:
+``` bash
+gcc -S main.i -o main.s
+```
+
+## Bước 3: Assembly
+
++ Chuyển file main.s thành file main.o (chuỗi 0 và 1)
++ Câu lệnh như sau:
+
+``` bash
+gcc -c main.s -o main.o
+```
+
+## Bước 4: Linking
++ Liên kết các file .o để tạo ra file main.exe (trên Windows) hoặc main trên Linux và macOs
++ Ví dụ trong chương trình có file test.c test.h và main.c:
+``` bash
+gcc main.o test.o -o main
+./main
+
+```
+
+
+
 
 
