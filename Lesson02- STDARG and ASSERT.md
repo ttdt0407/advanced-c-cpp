@@ -1,13 +1,13 @@
 # Bài 2: Thư viện STDARG và ASSERT
 
-##__2.1 Thư viện STDARG <stdarg.h>__
+## 2.1 Thư viện STDARG <stdarg.h> 
 Là thư viện header cho phép viết các hàm nhận một số lượng đối số không xác định trước bằng cách sử dụng các macro:
 + va_list: kiểu dữ liệu để lưu trữ danh sách đối số
 + va_start: khởi tạo danh sách đối số
 + va_arg: lấy đối số kế tiếp từ danh sách
 + va_end: thu hồi tài nguyên khi sử dụng danh sách đối số
 
-###__2.1.1 Sử dụng với hàm khi biết số lượng đối số__
+### 2.1.1 Sử dụng với hàm khi biết số lượng đối số
 
 ``` bash
 /* Hàm tính tổng số lượng tham số tuỳ biến */
@@ -42,7 +42,7 @@ int main(void) {
     return 0;
 }
 ```
-###__2.1.2 Sử dụng với hàm khi không cần biết trước số lượng đối số__
+### 2.1.2 Sử dụng với hàm khi không cần biết trước số lượng đối số
 
 ```bash
 #include <stdio.h>
@@ -72,4 +72,4 @@ int main(void)
     return 0;
 }
 ```
-###__2.1.3 Sử
+### 2.1.3 Sử
