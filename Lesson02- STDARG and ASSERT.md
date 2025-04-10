@@ -173,7 +173,7 @@ assert(x == 7 && "x khac 7");
 ```
 Bởi vì trong C, khi bạn xét giá trị của một con trỏ trong biểu thức điều kiện, con trỏ khác NULL được coi là true còn con trỏ bằng NULL được coi là false
 
-### 2.2.2 Sử dụng macro cho assert() để debug 
+### 2.2.2 Sử dụng LOG(condition, cmd) 
 
 ``` bash
 
