@@ -72,4 +72,69 @@ int main(void)
     return 0;
 }
 ```
-### 2.1.3 Sử
+### 2.1.3 Sử dụng kí tự để làm điểm dừng
+
+``` bash
+
+#include <stdio.h>
+#include <stdarg.h>
+
+#define tong(...)  sum(__VA_ARGS__, '\n')
+
+int sum(int count, ...)
+{
+    va_list args;
+    va_list check;     // khai báo biến có kiểu va_list để kiểm tra
+
+    va_start(args, count);  // khởi tạo danh sách args
+    va_copy(check, args);  // copy địa chỉ của tham số cố định cuối cùng trước các đối số biến
+
+    int result = count;
+
+    while((va_arg(check,char*)) != (char*)'\n')   // check điều kiện không phải kí tự xuống dòng
+    {
+        result += va_arg(args,int);
+    }
+    va_end(args);
+    va_end(check);
+    return result;
+}
+
+int main(void)
+{
+    printf("%d\n", tong(1, 2, 3, 4));
+    return 0;
+}
+```
+
+### 2.1.4 Sử dụng kiểu dữ liệu struct
+```bash
+#include <stdio.h>
+#include <stdarg.h>
+
+typedef struct {
+    int x;
+    double y;
+} Data;
+
+
+void disPlay(int count, ...)
+{
+    va_list args;
+    va_start(args, count);
+
+    for (int i = 0; i < count; i++)
+    {
+        Data temp = va_arg(args, Data);
+        printf("The value of x at %d is: %d\n", i, temp.x);
+        printf("The value of y at %d is: %f\n", i, temp.y);
+    }
+    va_end(args);
+}
+
+int main(void)
+{
+    disPlay(3, (Data){2, 5.0}, (Data){3, 2.2}, (Data){22, 39.0});
+    return 0;
+}
+```
