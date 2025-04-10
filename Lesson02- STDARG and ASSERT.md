@@ -1,7 +1,7 @@
 # Bài 2: Thư viện STDARG và ASSERT
 
 ## 2.1 Thư viện STDARG <stdarg.h> 
-Là thư viện header cho phép viết các hàm nhận một số lượng đối số không xác định trước bằng cách sử dụng các macro:
+__Là thư viện header cho phép viết các hàm nhận một số lượng đối số không xác định trước bằng cách sử dụng các macro:__
 + va_list: kiểu dữ liệu để lưu trữ danh sách đối số
 + va_start: khởi tạo danh sách đối số
 + va_arg: lấy đối số kế tiếp từ danh sách
@@ -137,4 +137,89 @@ int main(void)
     disPlay(3, (Data){2, 5.0}, (Data){3, 2.2}, (Data){22, 39.0});
     return 0;
 }
+```
+## 2.2 Thư viện ASSERT <assert.h>
+__Cung cấp macro assert dùng để kiểm tra điều kiện trong quá trình chạy chương trình của chúng ta__
++ Phát hiện lỗi sớm
++ Giao diện đơn giản
++ Không ảnh hưởng đến sản phẩm cuối cùng
++ Hỗ trợ kiểm thử tự động
+
+### 2.2.1 assert()
+Khi sử dụng if else để debug thì bạn sẽ không biết nó ở dòng nào hay ở file nào, điều kiện khiến chương trình thất bại là gì, macro assert thì sẽ có thể thực hiện những việc trên giúp cho chúng ta
+
+```bash
+#include <stdio.h>
+#include <assert.h>
+
+
+
+int main(int argc, const char *argv[])
+{
+    int x = 9;
+    assert(x == 7);    // check that is x equal to 7, if not, display notification (file information, error line and failed condition) and do not implement next codes
+
+    printf("x = %d", x);
+
+    return 0;
+}
+// return: Assertion failed: x == 7, file main.c, line 9
+```
+Ta có thể thêm chuỗi vào asser() để khi biểu thức assert thất bại, toàn bộ chuỗi biểu thức (bao gồm cả thông điệp) sẽ được in ra giúp cho giúp việc debug được dễ dàng hơn
+
+``` bash
+assert(x == 7 && "x khac 7");
+
+```
+Bởi vì trong C, khi bạn xét giá trị của một con trỏ trong biểu thức điều kiện, con trỏ khác NULL được coi là true còn con trỏ bằng NULL được coi là false
+
+### 2.2.2 Sử dụng macro cho assert() để debug 
+
+``` bash
+
+#include <assert.h>
+#include <stdio.h>
+
+#define LOG(condition, cmd)    assert(condition && #cmd)
+ double divide(int a, int b)
+ {
+    LOG(b != 0, mau bang 0);
+
+    return (double)a/b;
+ }
+
+
+
+int main(int argc, const char *argv[])
+{
+    
+    printf("result of a devided by b is : %lf", divide(2,5));
+
+    return 0;
+}
+```
+### 2.2.3 Macro ASSERT_IN_RANGE(value, min, max) set value min, max
+
+``` bash
+#include <stdio.h>
+#include <assert.h>
+
+#define ASSERT_IN_RANGE(value, min ,max)   assert((value >= min) && (value <= max))
+
+void setValue(int x)
+{
+    ASSERT_IN_RANGE(x, 1, 100);
+    // Assertion failed: (x >= 1) && (x <= 100), file main.c, line 8
+}
+
+int main(int argc, const char *argv[])
+{
+    int x = -1;
+
+    setValue(x);
+    printf("Value of x is in range from 1 to 100\n");
+
+    return 0;
+}
+
 ```
