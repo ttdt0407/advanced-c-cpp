@@ -26,7 +26,7 @@ x = x << 2;  // 0b00010000;
 int x = 3; // 0b00000011;
 x = x >> 2; // 0b00000000;
 ```
-# 3.1 Bật bit sử dụng phép OR
+## 3.2 Bật bit sử dụng phép OR
 
 ``` bash
 #include <stdio.h>
@@ -52,7 +52,7 @@ void enableFeature(uint8_t *options, uint8_t feature)
 
 ```
 
-# 3.2 Tắt bit sử dụng phép AND và NOR
+## 3.3 Tắt bit sử dụng phép AND và NOR
 ``` bash
 
 void disableFeature(uint8_t *options, uint8_t feature)
@@ -62,7 +62,7 @@ void disableFeature(uint8_t *options, uint8_t feature)
 
 ```
 
-# 3.3 Đọc bit đang bật hay tắt
+## 3.4 Đọc bit đang bật hay tắt
 
 ``` bash
 
@@ -74,7 +74,7 @@ int8_t isFeatureDisabled(uint8_t options, uint8_t feature)
 
 ```
 
-__Chương trình sử dụng đầy đủ 3 tính năng trên__
+## 3.5 Chương trình sử dụng đầy đủ 3 tính năng trên
 ```bash
 
 #include <stdio.h>
