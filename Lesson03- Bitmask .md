@@ -5,7 +5,7 @@ __Là một kỹ thuật sử dụng các bit để lưu trữ và thao tác v�
 + Quản lý các trạng thái, quyền truy cập hoặc các thuộc tính
 
 <p align = "center">
-<img src = "https://www.google.com/url?sa=i&url=https%3A%2F%2Frdsic.edu.vn%2Fblog%2Fblog-3%2For-xor-vi-cb.html&psig=AOvVaw3cvPngWK6uUOu65T6r0Cj_&ust=1744455390023000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMCcwvLoz4wDFQAAAAAdAAAAABAp" width = "500" height = "350">
+<img src = "https://www.edn.com/wp-content/uploads/media-1061594-max-bb-02.gif" width = "500" height = "350">
 
 
 Có nhiều kiểu dữ liệu giúp tối ưu bộ nhớ và linh hoạt khi chuyển đổi giữa các hệ thống như:
