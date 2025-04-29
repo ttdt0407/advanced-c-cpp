@@ -104,4 +104,86 @@ int main(void)
 
  ```
 
+## 4.5. Các kiểu con trỏ thường gặp
+### 4.5.1. Void pointer
+
+__Dùng để trỏ tới bất kì địa chỉ nào mà không cần phải quan tâm đến kiểu dữ liệu tại địa chỉ mà nó trỏ tới__
+
++ Việc sử dụng con trỏ void cho phép lập trình viên lưu giữ giá trị địa chỉ của bất kì biến nào mà con trỏ trỏ đến.
++ Tuy nhiên không thể giải tham chiếu đến vị trí đó bởi trình biên dịch không thể biết được kích thước thực sự của giá trị nằm tại địa chỉ đó, tránh việc truy xuất các giá trị không mong muốn.
++ Ta có thể truy xuất giá trị của con trỏ void bằng cách sử dụng ép kiểu để giới hạn vùng giá trị có thể truy xuất cho con trỏ.
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    
+    int x = 10;
+    void *ptr_int = &x;
+
+    printf("Adrress: %p Value: %d", ptr_int, *(int*) ptr_int); // typecasting void pointer to integer pointer
+
+    return 0;
+}
+
+```
+__Câu hỏi đặt ra là tại sao phải sử dụng con trỏ void trong khi ở ví dụ trên có thể sử dụng con trỏ có cùng kiểu dữ liệu với biến được trỏ đến ?__
+ 
+ Việc sử dụng con trỏ có kiểu void có thể làm tăng tính linh hoạt của chương trình, nếu cứ mỗi biến được tạo ra cần 1 con trỏ để truy cập hay thì sẽ tốn nhiều tài nguyên, tốn nhiều thời gian khởi tạo hay theo dõi, thay vào đó ta chỉ cần 1 con trỏ void và sử dụng ép kiểu để có thể truy xuất được bất kì biến nào trong chương trình. Điều này giúp giảm bớt số lượng con trỏ cần thiết và làm cho mã nguồn trở nên tổng quát và dễ bảo trì hơn.
+
+### 4.5.2. Pointer and Array
+__Bản thân tên của mảng chính là một con trỏ lưu giữ giá trị địa chỉ của phần tử đầu tiên trong mảng__
+
+```c
+
+int arr1[] = {1, 2, 3, 4, 5};
+char arr2[] = "Seventeen";
+
+void *ptr_void = arr1;
+printf("Value of the second element in array 1: %d", *((int *) ptr_void + 1));
+
+```
+
++ Ở ví dụ trên, nếu ta sửa lại thành *(int*) (ptr_void + 1) thì sẽ sai kết quả, bởi vì kiểu con trỏ void khi cộng 1 sẽ tự động cộng 1 byte (đối với gcc), tức là cộng thêm số byte tương đương với kiểu char. Do vậy ta cần ép kiểu trước rồi mới cộng 1 cho địa chỉ của mảng.
++ Tên mảng chính là con trỏ đến địa chỉ bắt đầu của mảng, nếu viết như sau: arr1[2]
+ tương đương với *((int *) ptr_void + 2) nếu bạn dùng kiểu con trỏ void
+
+__Mảng con trỏ bao gồm các phần tử mà mỗi phần tử là một con trỏ chứa địa chỉ của một biến khác__
+
++ Mảng con trỏ chứa địa chỉ của các biến có kiểu dữ liệu cùng với kiểu dữ liệu mảng con trỏ trỏ đến
++ Với mảng con trỏ kiểu void thì có thể chứa địa chỉ các kiểu dữ liệu khác nhau
+
+```c
+#include <stdio.h>
+
+
+int main(void)
+{
+    int x = 2;
+    double y = 1.88;
+    long long z = 24432535;
+
+
+    int *ptr_int = &x;
+    double *ptr_double = &y;
+    long long *ptr_longlong = &z;
+
+
+    void *ptr_void;
+
+    int *arr1[] = {&x, &y, &z};  // không hợp lệ
+    double *arr2[] = {&x, &y, &z};  // không hợp lệ
+    long long *arr3[] = {&x, &y, &z};  // không hợp lệ
+
+    void *arr4[] = {ptr_int, ptr_double, ptr_longlong}; // hợp lệ
+
+    printf("Dia chi: %p %p %p \nGia tri: %d %.2lf %lld", *arr1[0], arr1[1], arr1[2], *arr1[0], *(double*) arr1[1], *(long long*) arr1[2]); // báo lỗi vì là mảng con trỏ double chỉ có thể chứa địa chỉ của biến có kiểu dữ liệu int
+    printf("Dia chi: %p %p %p \nGia tri: %d %.2lf %lld", arr2[0], arr2[1], arr2[2],*(int*)arr1[0], *arr1[1], *(long long*) arr1[2]); // báo lỗi vì là mảng con trỏ double chỉ có thể chứa địa chỉ của biến có kiểu dữ liệu double
+    printf("Dia chi: %p %p %p \nGia tri: %d %.2lf %lld", arr3[0], arr3[1], arr3[2], *(int*)arr1[0], *(double*) arr1[1], *arr1[2]); // báo lỗi vì là mảng con trỏ double chỉ có thể chứa địa chỉ của biến có kiểu dữ liệu long long
+    printf("Dia chi: %p %p %p \nGia tri: %d %.2lf %lld", arr4[0], arr4[1], arr4[2], *(int*)arr1[0], *(double*) arr1[1], *(long long*) arr1[2]); // không gây lỗi vì mảng con trỏ void hợp lệ chứa địa chỉ của các biến khác nhau
+    return 0;
+}
+
+```
 
