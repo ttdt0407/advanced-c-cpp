@@ -132,7 +132,51 @@ __Câu hỏi đặt ra là tại sao phải sử dụng con trỏ void trong khi
  
  Việc sử dụng con trỏ có kiểu void có thể làm tăng tính linh hoạt của chương trình, nếu cứ mỗi biến được tạo ra cần 1 con trỏ để truy cập hay thì sẽ tốn nhiều tài nguyên, tốn nhiều thời gian khởi tạo hay theo dõi, thay vào đó ta chỉ cần 1 con trỏ void và sử dụng ép kiểu để có thể truy xuất được bất kì biến nào trong chương trình. Điều này giúp giảm bớt số lượng con trỏ cần thiết và làm cho mã nguồn trở nên tổng quát và dễ bảo trì hơn.
 
-### 4.5.2. Pointer and Array
+
+
+__Tương tự như variadic đã được học, void pointer cũng được sử dụng cho các trường hợp thể hiện sự tổng quát, ví dụ như tạo một hàm in ra giá trị của từng kiểu dữ liệu được trỏ đến như sau:__
+
+```c
+#include <stdio.h>
+
+void print(void *data, char c)
+{
+    switch (c)
+    {
+        case 'i' : 
+        printf("Data: %d\n", *(int*) data);
+        break;
+
+        case 'f': case 'd' :
+        printf("Data: %.3lf\n", *(double*) data);
+        break;
+
+        case 'l':
+        printf("Data: %lld\n", *(long long*) data);
+        break;
+    }
+
+}
+
+int main(void)
+{
+
+    int x = 2;
+    double y = 3.1;
+    long long z = 123456;
+
+    print(&x, 'i');
+    print(&y, 'd');
+    print(&z, 'l');
+
+
+    return 0;
+}
+
+```
+
+
+### 4.5.2. Mối liên hệ giữa con trỏ và mảng
 __Bản thân tên của mảng chính là một con trỏ lưu giữ giá trị địa chỉ của phần tử đầu tiên trong mảng__
 
 ```c
@@ -186,4 +230,88 @@ int main(void)
 }
 
 ```
+__Có thể nói tên mảng hành xử như một con trỏ, nhưng bản thân nó không phải là con trỏ vì bản thân nó không thể trỏ sang nơi khác và luôn lưu địa chỉ cố định là địa chỉ của con trỏ (constant address)__
+
+
+### 4.5.3. Con trỏ hàm
+
+__Lưu giữ địa chỉ của một hàm mà nó trỏ đến__
+ Cú pháp:
+
+
+```c
+
+<return_type> (*func_pointer)(<data_type_1>, <data_type_2>);
+```
+
++ Khi một con trỏ hàm trỏ tới địa chỉ của một hàm, địa chỉ đó nằm trong bộ nhớ chương trình (Program Memory) hay còn gọi là Text Segment trong sơ đồ bộ nhớ của một chương trình C/C++.
++ Text Segment hay còn gọi là Code Segment chính là nơi lưu trữ mã lệnh của chương trình bao gồm các hàm và lệnh được biên dịch.
++ Khi người lập trình viên khai báo một con trỏ hàm và gán nó trỏ tới một hàm cụ thể thì lúc này con trỏ hàm sẽ chứa địa chỉ của mã lệnh đầu tiên của hàm đó trong Text Segment.
++ Ta cần khai báo con trỏ hàm thoả các điều kiện để có thể gán nó trỏ tới một hàm nào đó.
+Giống với hàm trỏ tới về kiểu trả về, số lượng tham số và kiểu dữ liệu của tham số
+
+```c
+#include <stdio.h>
+
+void hello(int a, int b)
+{
+    printf("%d\n", a+b);
+}
+
+
+int main(void)
+{
+    void (func_ptr*)(int, int) = hello;  // sử dụng con trỏ hàm gán nó trỏ tới địa chỉ hàm hello
+
+    func_ptr(2,2);   
+
+
+    return 0;
+}
+```
+
++ Tên hàm là một hằng số con trỏ tức là chỉ dùng để trỏ đến địa chỉ của mã lệnh đầu tiên trong hàm và không thể áp dụng phép toán con trỏ như với mảng.
++ Khi sử dụng giải tham chiếu con trỏ hàm để gọi hàm thì không được viết như sau sẽ gây lỗi: *func_ptr(x,y), trong đó x và y là hai biến.
++ Sử dụng con trỏ hàm có thể gọi cho các hàm có cùng kiểu dữ liệu trả về, kiểu dữ liệu tham số và, số lượng tham số đã đề cập.
++ Tổng quát hơn ta có thể xây dựng một hàm có tham số là con trỏ hàm sử dụng callback function.
+
+```c
+#include <stdio.h>
+
+
+void tong(int a, int b)
+{
+    printf("tong: %d\n", a + b);
+}
+
+void hieu(int a, int b)
+{
+    printf("hieu: %d\n", a - b);
+}
+
+void tich(int a, int b)
+{
+    printf("tich: %d\n", a * b);
+}
+void thuong(int a, int b)
+{
+    printf("thuong: %f\n", (float)a / b);
+}
+
+void calc(void (*func_ptr)(int, int), int a, int b)
+{
+    func_ptr(a,b); // callback 
+}
+
+int main(void)
+{
+
+    calc(thuong, 2, 3);
+
+    return 0;
+}
+
+
+```
+__Callback function là một hàm được truyền như một tham số và một hàm khác và được gọi (callback) bên trong hàm đó__
 
