@@ -236,7 +236,8 @@ __Có thể nói tên mảng hành xử như một con trỏ, nhưng bản thân
 ### 4.5.3. Con trỏ hàm
 
 __Lưu giữ địa chỉ của một hàm mà nó trỏ đến__
- Cú pháp:
+
+Cú pháp:
 
 
 ```c
@@ -261,7 +262,7 @@ void hello(int a, int b)
 
 int main(void)
 {
-    void (func_ptr*)(int, int) = hello;  // sử dụng con trỏ hàm gán nó trỏ tới địa chỉ hàm hello
+    void (*func_ptr)(int, int) = hello;  // sử dụng con trỏ hàm gán nó trỏ tới địa chỉ hàm hello
 
     func_ptr(2,2);   
 
@@ -274,7 +275,7 @@ int main(void)
 + Khi sử dụng giải tham chiếu con trỏ hàm để gọi hàm thì không được viết như sau sẽ gây lỗi: *func_ptr(x,y), trong đó x và y là hai biến.
 + Sử dụng con trỏ hàm có thể gọi cho các hàm có cùng kiểu dữ liệu trả về, kiểu dữ liệu tham số và, số lượng tham số đã đề cập.
 + Tổng quát hơn ta có thể xây dựng một hàm có tham số là con trỏ hàm sử dụng callback function.
-
+__Callback function là một hàm được truyền như một tham số cho một hàm khác và được gọi (callback) bên trong hàm đó__
 ```c
 #include <stdio.h>
 
@@ -298,9 +299,9 @@ void thuong(int a, int b)
     printf("thuong: %f\n", (float)a / b);
 }
 
-void calc(void (*func_ptr)(int, int), int a, int b)
+void calc(void (*func_ptr)(int, int), int a, int b)  // được truyền như 1 tham số 
 {
-    func_ptr(a,b); // callback 
+    func_ptr(a,b); // được gọi bên trong hàm
 }
 
 int main(void)
@@ -311,7 +312,40 @@ int main(void)
     return 0;
 }
 
+```
+### 4.5.4. Con trỏ tới hằng (pointer to constant)
+__Con trỏ tới hằng có các đặc điểm như sau:__
+
++ Có 2 cách để khai báo con trỏ tới hằng:
+
+```c
+
+<data_type> const *ptr_const;
+const <data_type> *ptr_const;
 
 ```
-__Callback function là một hàm được truyền như một tham số và một hàm khác và được gọi (callback) bên trong hàm đó__
+
++ Nó không thể thay đổi giá trị của biến mà nó trỏ tới thông qua con trỏ đó, nhưng bản thân con trỏ vẫn có thể trỏ sang địa chỉ khác.
+
++ Nó vẫn có thể đọc giá trị của biến như bình thường.
+
+```c
+
+int a = 10;
+int b = 30;
+
+const int *ptr_const = &a;  // con trỏ tới hằng
+
+*ptr_const = 6;   // không hợp lệ
+ptr_const = &b;   // hợp lệ
+
+```
+__Ứng dụng__
+
++ Bảo mật dữ liệu: khi truyền địa chỉ biến vào hàm, dùng con trỏ tới hằng để đảm bảo hàm không thể thay đổi giá trị biến gốc thông qua con trỏ đó.
+
++ Truy xuất vùng nhớ chỉ đọc: khi truyền dữ liệu từ hai vđk A và B, nếu B chỉ cần đọc dữ liệu tại các vùng nhớ mà không được phép thay đổi thì ta sử dụng  con trỏ tới hằng để đảm bảo an toàn dữ liệu.
+
++ Thanh ghi chỉ đọc trong vi điều Trong vi điều khiển có những thanh ghi chỉ đọc, có những thanh ghi vừa đọc vừa ghi ( thanh ghi ODR vừa đọc vừa ghi, thanh ghi IDR chỉ đọc), đối với các thanh ghi này cần khai báo con trỏ tới hằng để tránh thay đổi dữ liệu nằm trong thanh ghi.
+
 
