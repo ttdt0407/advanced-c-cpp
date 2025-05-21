@@ -349,3 +349,105 @@ __Ứng dụng__
 + Thanh ghi chỉ đọc trong vi điều Trong vi điều khiển có những thanh ghi chỉ đọc, có những thanh ghi vừa đọc vừa ghi ( thanh ghi ODR vừa đọc vừa ghi, thanh ghi IDR chỉ đọc), đối với các thanh ghi này cần khai báo con trỏ tới hằng để tránh thay đổi dữ liệu nằm trong thanh ghi.
 
 
+### 4.5.5. Hằng con trỏ (constant pointer)
+
++ Là con trỏ có thể thay đổi giá trị tại địa chỉ mà nó trỏ tới thông qua chính con trỏ đó.
++ Không thể thay đổi giá trị địa chỉ mà nó trỏ tới, tức là không thể gán nó cho một giá trị địa chỉ khác, khác với địa chỉ ban đầu mà nó trỏ tới.
+
+Cú pháp :
+
+```c
+
+<data_type> *const <pointer_name>
+
+```
+
+__Khác với con trỏ tới hằng, hằng con trỏ có từ khoá const nằm trước tên con trỏ ( thay vì nằm trước kiểu dữ liệu hoặc sau kiểu dữ liệu)__
+
+```c
+
+int main(int argc, char *argv[])
+{
+
+    int a = 10;
+    int b = 30;
+
+    int *const ptr_const = &a;
+
+    *ptr_const = 20; // hợp lệ
+
+    ptr_const = &b;  // không hợp lệ
+
+    return 0;
+}
+
+```
++ Khi lập trình thanh ghi (register) của phần cứng, thường dùng con trỏ để thao tác, nhưng địa chỉ thanh ghi là cố định nên dùng hằng con trỏ để đảm bảo không ai thay đổi địa chỉ đó.
+
++ Giúp đảm bảo các hàm điều khiển không vô tình thay đổi địa chỉ của con trỏ, chỉ làm việc với nội dung.
+
+### 4.5.6. Kết hợp của con trỏ hằng và hằng con trỏ
+
+__Đây là con trỏ vừa là hằng con trỏ, vừa là con trỏ tới hằng. Nghĩa là không thể thay đổi giá trị tại địa chỉ mà con trỏ trỏ tới thông qua con trỏ này và không thể thay đổi địa chỉ mà con trỏ trỏ tới__
+
+CÚ PHÁP:
+```c
+const <data_type> *const <pointer_name>;   // cách khai báo 1
+<data_type> const *const <pointer_name>;  // cách khai báo 2
+
+```
+
+### 4.5.6. Con trỏ null (NULL pointer)
+
+__COn trỏ NULL là một con trỏ không trỏ đến bất kì đối tượng nào hoặc vùng nhớ cụ thể nào__
+
++ Sử dụng con trỏ null hữu ích khi muốn kiểm tra xem một con trỏ đã được khởi tạo và có trỏ đến một vùng hợp lệ hay chưa.
+
++ Tránh giải tham chiếu một NULL pointer để tránh lỗi chương trình.
+
+
+```c
+
+int main( int argc, char *argv[])
+{
+    int *ptr  = NULL;
+    int x;
+
+    if (ptr == NULL)
+        printf("This is a null pointer\n");
+    else printf("Pointer is not null\n");
+
+
+    int a = 4;
+
+    if (ptr == NULL)
+    {
+        ptr = &a;
+        *ptr = 39;
+        ptr = NULL;
+    }
+    
+
+    return 0;
+}
+```
+
++ C: NULL, C++: nullptr, NULL.
+
+### 4.5.7. Con trỏ đến con trỏ (pointer to pointer)
+
+__Là một kiểu dữ liệu cho phép bạn lưu trữ địa chỉ của một con trỏ__
+
++ Cung cấp một bậc trỏ mới, cho phép bạn thay đổi giá trị của con trỏ gốc. Cấp bậc này có thể hữu ích trong nhiều tình huống, đặc biệt là khi bạn làm việc với các hàm cần thay đổi giá trị của con trỏ.
+
+```c
+
+int test = 5;      // address: 0x01, value: 5
+int *ptr_int = &test;  // address: 0x03, value: 0x01
+int **ptr_ptr = &ptr_int;  // address: 0x05, value: 0x03
+int ***ptr_ptr3 = &ptr_ptr; // address: 0x07, value 0x05
+```
++ Trong ví dụ trên, ptr_int là con trỏ cấp I, ptr_ptr là con trỏ cấp II, ptr_ptr3 là con trỏ cấp 3.
+
+
+
