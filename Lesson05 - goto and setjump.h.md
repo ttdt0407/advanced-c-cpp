@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 
 ```
 
-__Đây là một chương trình mô phỏng LED - 7 đoạn, điều khiển việc hiển thị bằng nút bấm theo quy luật : Bấm lần lẻ hiển thị, bấm lần chẵn dừng, bấm phím q hoặc Q sẽ kết thúc chương trình__
+__Đây là một chương trình mô phỏng LED - 7 đoạn, điều khiển việc hiển thị bằng nút bấm theo quy luật : Bấm số lần lẻ phím bất kỳ hiển thị, bấm số lần chẵn dừng, bấm phím q hoặc Q sẽ kết thúc chương trình__
 
 ```c
 #include <stdio.h>
@@ -318,3 +318,169 @@ int main(int argc , char* argv[])
 
 ```
 
+## 6.2. Thư viện setjmp.h
+
+### 6.2.1. Hàm setjmp và longjmp trong thư viện setjmp.h
+__Là một thư viện cung cấp 2 hàm chính là setjmp và longjmp__
+
++ Đây là một cơ chế nhảy không cục bộ non-local jump, cho phép bạn nhảy từ một hàm về một vị trí trước đó trong call stack, tương tự như goto nhưng xuyên qua được nhiều hàm.
++ Cả hai hàm này đều được sử dụng để thực hiện xử lý ngoại lệ trong C dù không phải là một cách tiêu biểu.
++ 2 hàm như sau:
+
+```c
+setjmp(jmp_buf env);
+longjmp(jmp_buf env, int value);
+```
+
++ Kiểu dữ liệu jmp_buf lưu trữ trạng thái thực thi của chương trình tại thời điểm mình gọi thằng setjmp ra. Dữ liệu đó chính là thanh ghi PC hoặc một số thanh ghi khác nữa.
+
+__Hàm setjmp(jmp_buf env) có chức năng đánh dấu vị trí có thể quay lại bằng longjmp sau này:__
++ Giá  trị trả về của hàm setjmp(jmp_buf env) là một giá trị số nguyên, bằng 0 ở lần gọi đầu tiên.
++ Trả về một giá trị khác 0 ở lần gọi tiếp theo phụ thuộc vào hàm tham số của hàm longjmp(jmp_buf env, int value).
+
+
+__Hàm longjmp(jmp_buf env, int value) nhảy về vị trí hiện tại của setjmp và tiếp tục thực thi từ đó__
++ Biến env là biến trong hàm setjmp dùng để đọc dữ liệu vị trí, nhờ đó longjmp quay về được.
++ Tham số value là giá trị tự truyền, nó chính là giá trị mà setjmp trả về từ lần gọi khác lần gọi đầu tiên.
++ Lưu ý biến jmp_buf env cần được khởi tạo global để có thể truy xuất được trong cả setjmp() và longjmp().
+
+```c
+
+#include <stdio.h>
+#include <setjmp.h>
+
+
+jmp_buf env;
+
+int exception = 0;
+
+
+void func_2()
+{
+    printf("This is function 2\n");
+    longjmp(env,2);
+}
+
+void func_3()
+{
+    printf("This is function 3\n");
+    longjmp(env,3);
+}
+
+void func_1()
+{
+    exception = setjmp(env);
+    if (exception == 0)
+    {
+        printf("This is function 1\n");
+        printf("exception = %d\n", exception);
+        func_2();
+    }
+    else if(exception == 2)
+    {
+        printf("exception = %d\n", exception);
+        func_3();      
+    }
+    else if(exception == 3)
+    {
+        printf("exception = %d\n", exception);
+    } 
+}
+
+int main(int argc, char *argv[])
+{
+    func_1();        
+    return 0;
+}
+
+```
+
+### 6.2.2. Xử lý ngoại lệ (Exception Handling)
+
+__Xử lý ngoại lệ (exception handling) là một cơ chế trong lập trình giúp phát hiện và xử lý các lỗi hoặc tình huống bất thường xảy ra trong quá trình thực thi chương trình, giúp chương trình hoạt động ổn định và không bị dừng đột ngột.__
+
+#### 6.2.2.1. Ngoại lệ là gì
+
+__Ngoại lệ là những lỗi hoặc sự kiện không mong muốn xảy ra trong quá trình thực thi (runtime errors). Ví dụ như:__
+
++ Chia một số cho 0.
++ Truy cập mảng ngoài phạm vi.
++ Truy xuất con trỏ NULL.
++ Lỗi khi mở hoặc tập tin không tồn tại.
++ Lỗi cấp phát bộ nhớ.
+
+#### 6.2.2.2. Cơ chế xử lý ngoại lệ
+
+__Cơ chế xử lý ngoại lệ giúp chương trình phản ứng kịp thời với các lỗi mà không làm gián đoạn toàn bộ chương trình, không làm chương trình bị crash__
+
+__Hầu hết các ngôn ngữ lập trình bậc cao như: C++, java, python,... đều hỗ trợ xử lý ngoại lệ thông qua từ khoá chính như:__
+
++ try: định nghĩa một khối lệnh có thể phát sinh ra lỗi.
++ catch: xử lý ngoại lệ nếu có lỗi xảy ra.
++ throw: ném ra một ngoại lệ khi xảy ra lỗi.
+
+```c
+    try
+    {
+        // khối lệnh có thể phát sinh lỗi
+    }
+    catch (loai_ngoai_le_1)
+    {
+        // Xử lý ngoại lệ loại 1
+    }
+    catch(loai_ngoai_le_2)
+    {
+        // Xử lý ngoại lệ loại 2
+    }
+
+```
+
+```c
+#include <stdio.h>
+#include <setjmp.h>
+
+#define TRY if((exception = setjmp(env)) == 0) 
+#define CATCH(x) else if (exception == x)
+#define THROW(x) longjmp(env,x)
+
+typedef enum
+{
+    NO_ERROR,
+    NO_EXIST,
+    DEVIDE_BY_ZERO,
+} error_codes;
+
+jmp_buf env;
+int exception = 0;
+
+
+double divide(int a, int b)
+{
+
+    if (a == 0 && b == 0)
+        THROW(NO_EXIST);
+    else if (b == 0)
+        THROW(DIVIDE_BY_ZERO);
+    
+    return (double) a / b;
+}
+
+int main(int argc, char *argv[])
+{
+    exception = NO_ERROR;
+    
+    TRY
+        printf("Ket qua: %.2lf\n", divide(2,2));
+    CATCH(NO_EXIST)
+        printf("Khong hop le\n");
+    CATCH(DIVIDE_BY_ZERO)
+        printf("Khong chia duoc cho 0\n");
+
+
+    return 0;
+}
+```
+
+__Bản chất của TRY-CATCH_THROW là sử dụng cho mục đích debug.__
++ Chương trình vẫn sẽ tiếp tục dù có lỗi hay không, khác với assert sẽ gây dừng hẳn chương trình.
++ Tách biệt logic gỡ lỗi và logic của chương trình chính.
