@@ -125,9 +125,75 @@ void display_result(Equation eq);
 
 #endif
 ```
+### 6.3. volatile
+
+__Từ khoá volatile được sử dụng để báo hiệu cho trình biên dịch rằng một biết có thể thay đổi ngẫu nhiên, ngoài sự kiểm soát của chương trình.__
+__volatile giúp ngăn chặn trình biên dịch tối ưu hoá hoặc xoá bỏ những thao tác có thể xảy ra trên biến đó.__
+__Dùng volatile khi:__
+
++ Biến bị thay đổi bởi phần cứng (I/O, register,...).
++ Biến bị thay đổi bởi ISR.
++ Sử dụng tránh trình biên dịch chỉ đọc giá trị 1 lần rồi dùng mãi hay bỏ qua việc đọc lại biến, dưới cụ thể là biến i.
+
+```c
+#include "stm32f10x.h"
+
+volatile int i = 0;
+
+int a = 100;
+
+int main()
+{
+   while(1)
+   {
+      i = *((int*) 0x20000000);
+      if (i > 0) break;
+   }
+   a = 200;
+}
+
+```
+
+### 6.4. register
+
+__Khi khai báo một phép toán nào đó, nó sẽ lưu trữ một vùng địa chỉ trên RAM, sau đó được chuyển qua các thanh ghi (Register), từ các thanh ghi lưu trữ giá trị tiếp tục được chuyển qua ALU, sau khi thực hiện các phép tính được chuyển về lại thanh ghi và trở về RAM.__
+
+__Trong vi điều khiển hoặc máy tính, chương trình trước khi đến RAM thường được lấy từ ổ đĩa D hoặc ổ đĩa Flash.__
+
+__Trong ngôn ngữ lập trình C, từ khoá register được sử dụng để chỉ ra ý muốn của lập trình viên rằng một biến được sử dụng thường xuyên (vòng lặp) và có thể được lưu trữ trong một thanh ghi máy tính, chứ không phải trong bộ nhớ RAM, việc này nhằm giúp tăng tốc độ truy cập.__
+
+__Tuy nhiên đây chỉ là một đề xuất của lập trình viên, trình biên dịch có thể lựa chọn thực hiện theo hay không.__
+
+__Khi lưu trữ ở thanh ghi, không thể lấy địa chỉ của biến register (&).__
+
+Sau đây là chương trình tính toán thời gian khi gán register:
+
+```c
+
+#include <stdio.h>
+#include <time.h>
 
 
 
+int main(int argv, char *argv[])
+{
+
+    clock_t start = clock();   // save the start time
+    register int i;
+
+    for (i = 0; i < 2000000; i++);
+
+    clock_t end = clock();     // save the end time
+
+
+    double time_taken = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    printf("%lf\n", time_taken);
 
 
 
+    return 0;
+}
+
+```
+__Không được khai báo toàn cục bởi vì số lượng thanh ghi có hạn, nên không thể chiếm dụng hết thời gian chương trình__
