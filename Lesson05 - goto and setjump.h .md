@@ -1,6 +1,6 @@
-# Bài 6: goto - setjump.h
+# Bài 5: goto - setjump.h
 
-## 6.1. goto
+## 5.1. goto
 
 __Là lệnh điều khiển luồng chương trình, cho phép nhảy đến một nhãn (label) bất kỳ trong cùng một hàm__
 
@@ -318,9 +318,9 @@ int main(int argc , char* argv[])
 
 ```
 
-## 6.2. Thư viện setjmp.h
+## 5.2. Thư viện setjmp.h
 
-### 6.2.1. Hàm setjmp và longjmp trong thư viện setjmp.h
+### 5.2.1. Hàm setjmp và longjmp trong thư viện setjmp.h
 __Là một thư viện cung cấp 2 hàm chính là setjmp và longjmp__
 
 + Đây là một cơ chế nhảy không cục bộ non-local jump, cho phép bạn nhảy từ một hàm về một vị trí trước đó trong call stack, tương tự như goto nhưng xuyên qua được nhiều hàm.
@@ -395,11 +395,11 @@ int main(int argc, char *argv[])
 
 ```
 
-### 6.2.2. Xử lý ngoại lệ (Exception Handling)
+### 5.2.2. Xử lý ngoại lệ (Exception Handling)
 
 __Xử lý ngoại lệ (exception handling) là một cơ chế trong lập trình giúp phát hiện và xử lý các lỗi hoặc tình huống bất thường xảy ra trong quá trình thực thi chương trình, giúp chương trình hoạt động ổn định và không bị dừng đột ngột.__
 
-#### 6.2.2.1. Ngoại lệ là gì
+#### 5.2.2.1. Ngoại lệ là gì
 
 __Ngoại lệ là những lỗi hoặc sự kiện không mong muốn xảy ra trong quá trình thực thi (runtime errors). Ví dụ như:__
 
@@ -409,7 +409,7 @@ __Ngoại lệ là những lỗi hoặc sự kiện không mong muốn xảy ra 
 + Lỗi khi mở hoặc tập tin không tồn tại.
 + Lỗi cấp phát bộ nhớ.
 
-#### 6.2.2.2. Cơ chế xử lý ngoại lệ
+#### 5.2.2.2. Cơ chế xử lý ngoại lệ
 
 __Cơ chế xử lý ngoại lệ giúp chương trình phản ứng kịp thời với các lỗi mà không làm gián đoạn toàn bộ chương trình, không làm chương trình bị crash__
 
