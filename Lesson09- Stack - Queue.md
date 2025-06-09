@@ -168,3 +168,71 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
+```c
+// Application example (factorial)
+#include "stack.h"
+
+
+int factorial(int n)
+{   
+    if (n < 0)
+        return -1;
+
+    int result = 1;
+    Stack factorial_stack;
+
+    stack_init(&factorial_stack, n);
+
+    for (size_t i = n; i > 0; i--)
+        push(&factorial_stack, i);
+    
+    while(!stack_empty(factorial_stack))
+        result *= pop(&factorial_stack);
+  
+    return result;
+}
+
+
+int main()
+{    
+
+    int result = factorial(5);
+    if (result == -1)
+    {
+        printf("Not valid\n");
+    }
+    printf("%d", result);
+    return 0;
+}
+```
+
+
+## 9.2. Queue
+__Queue là một cấu trúc dữ liệu tuân theo nguyên tắc FIFO (First In First Out).__
+__Hàng đợi có 3 loại:__
++ Hàng đợi tuyến tính (Linear Queue).
++ Hàng đợi vòng tròn (Circular Queue).
++ Hàng đợi ưu tiên (Priority Queue).
+
+
+### 9.2.1. Các đặc điểm chung của hàng đợi tuyến tính và vòng tròn
+__Các thao tác cơ bản ở trên hàng đợi bao gồm:__
++ enqueue: thêm phần tử vào cuối hàng đợi, chỉ tác động lên rear.
++ dequeue: lấy/xoá phần tử ở đầu hàng đợi, chỉ tác động lên front.
++ front: đọc giá trị của phần tử đứng đầu hàng đợi.
++ rear: đọc giá trị của phần tử đứng cuối hàng đợi.
++ Kiểm tra hàng đợi đầy/rỗng.
++ Hàng đợi đầy: rear = size - 1.
++ Muốn kiểm tra hàng đợi rỗng cần lưu ý 2 trường hợp: front và rear đều bằng -1; hoặc front > rear.
+
+### 9.2.2. Linear Queue
+
++ Trong linear queue, nếu rear đã đạt tới max, thì queue sẽ được coi là đầy và không thể thêm phần tử mới, ngay cả khi phía trước còn khoảng trống do các phần tử đã xoá.
++ Chỉ có thể thêm phần tử mới khi đã dequeue toàn bộ các phần tử hiện có (queue rỗng hoàn toàn và front được reset về vị trí ban đầu).
+
+
+### 9.2.3. Circular Queue
+
+
+
+
