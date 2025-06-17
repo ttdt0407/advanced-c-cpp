@@ -86,3 +86,6 @@ int size(Node *array);                          // đếm số lượng node hi�
 bool empty(Node *array);                        // kiểm tra list rỗng
 void clear(Node **head);                        // xóa toàn bộ node
 ```
+__Sử dụng con trỏ cấp 2 để có thể thay đổi các con trỏ đã khởi tạo trong node, sử dụng với các hàm thêm/xoá nodes.__
+
+### Hàm push back
