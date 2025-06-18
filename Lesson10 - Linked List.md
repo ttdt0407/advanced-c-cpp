@@ -88,4 +88,82 @@ void clear(Node **head);                        // xóa toàn bộ node
 ```
 __Sử dụng con trỏ cấp 2 để có thể thay đổi các con trỏ đã khởi tạo trong node, sử dụng với các hàm thêm/xoá nodes.__
 
-### Hàm push back
+### Hàm push_back
+
+```c
+void push_back(Node **head, int data)
+{
+    Node *newNode = node_init(data);
+    Node *p = *head;
+
+    if (p == NULL)
+        *head = newNode;
+    else 
+    {
+        while(p->nextNode != NULL)
+            p = p->nextNode;
+        p->nextNode = newNode;
+    }
+}
+
+```
++ Có 3 bước cơ bản: kiểm tra xem danh sách rỗng hay không, gán con trỏ tạm và duyệt đến node cuối cùng hiện tại trong danh sách trước khi thêm vào node mới, và cuối cùng là gán con trỏ đó địa chỉ của node tiếp theo.
++ Khởi tạo biến tạm p là con trỏ bậc 1 và gán cho nó con trỏ hiện tại head để bắt đầu duyệt qua danh sách liên kết, tránh việc thay đổi giá trị của con trỏ head đầu danh sách.
+
++ Con trỏ p chỉ copy địa chỉ của con trỏ head, chứ không làm thay đổi giá trị thực sự của nó.
+
+
+### Hàm display
+
+```c
+void display(Node *head)
+{
+    int i = 0;
+    if (head == NULL)
+    {
+        printf("The linked list is empty !\n");
+    }
+    else 
+    {
+        while (head != NULL)
+        {
+            printf("%d: %d\n", i++, head->data);
+            head = head->nextNode;
+        }
+    }
+
+}
+```
++ Hàm display chỉ hiển thị các phần tử trong danh sách liên kết, ta chỉ cần truyền vào một con trỏ bậc 1.
+
+### Hàm pop_back
+
+```c
+void pop_back(Node **head)
+{
+    if (*head == NULL)
+        printf("The linked list is empty !\nNothing to pop back\n");
+    else if ((*head)->nextNode == NULL)
+    {
+        free(*head);
+        *head = NULL;  // tránh dangling pointer vì vùng nhớ mà con trỏ head trỏ đến đã bị thu hồi
+        // return ;  // dùng để trả về cho hàm có kiểu trả về void
+    }
+    else 
+    {
+        Node *p = *head;
+        Node *p_2;
+        while (p->nextNode != NULL)
+        {
+            p_2 = p;
+            p = p->nextNode;
+        }
+        free(p);
+        p_2->nextNode = NULL;
+    }
+}
+```
+
++ Tương tự như thuật toán của hàm push_back, nhưng thay vì trỏ tới node cuối thì nó lại là giải phóng node cuối hiện tại.
++ Sau đó nó sẽ thay thế con trỏ của node cuối bằng NULL.
+
