@@ -87,7 +87,27 @@ bool empty(Node *array);                        // kiểm tra list rỗng
 void clear(Node **head);                        // xóa toàn bộ node
 ```
 __Sử dụng con trỏ cấp 2 để có thể thay đổi các con trỏ đã khởi tạo trong node, sử dụng với các hàm thêm/xoá nodes.__
+### Hàm create_node
 
+```c
+typedef struct Node
+{
+    int data;
+    struct Node *nextNode;
+
+}Node;
+
+
+Node *create_node(int data)
+{
+    Node *node;
+    node = (Node *)malloc(sizeof(int));
+    node->data = data;
+    node->nextNode = NULL;
+    return node;
+}
+
+```
 ### Hàm push_back
 
 ```c
@@ -136,6 +156,28 @@ void display(Node *head)
 ```
 + Hàm display chỉ hiển thị các phần tử trong danh sách liên kết, ta chỉ cần truyền vào một con trỏ bậc 1.
 
+
+### Hàm size
+
+```c
+int size(Node *head)
+{   
+    int index = 0;
+    if (head == NULL)
+    {
+        printf("The linked list is empty !\n");
+    }
+    while (head != NULL)
+    {
+        head = head->nextNode;
+        index++;
+    }
+    return index;
+}
+
+```
+
+
 ### Hàm pop_back
 
 ```c
@@ -166,4 +208,130 @@ void pop_back(Node **head)
 
 + Tương tự như thuật toán của hàm push_back, nhưng thay vì trỏ tới node cuối thì nó lại là giải phóng node cuối hiện tại.
 + Sau đó nó sẽ thay thế con trỏ của node cuối bằng NULL.
++ Hoặc có thể sử dụng hàm pop_back như sau:
 
+```c
+void pop_back(Node **head) {
+  Node *p = *head;
+
+  if (*head == NULL) {
+    printf("The linked list is empty !\n");
+    return;
+  }
+
+  else if (size(*head) == 1)  // trường hợp khi linked list chỉ có 1 node
+  {
+      free(*head);  // giải phóng vùng nhớ head
+      *head = NULL; // gán con trỏ head bằng null
+  }
+
+  else 
+   {
+      int index;
+      while (p->nextNode != NULL && index != size(p) - 2)
+      {
+        index++;
+        p = p->nextNode;
+      }
+
+    free(p->nextNode);
+    p->nextNode = NULL;
+    }
+}
+```
+
+### Hàm push_front
+
+```c
+void push_front(Node **head, int data) {
+  Node *newNode = create_node(data);
+  newNode->nextNode = *head;
+  *head = newNode;
+    }
+```
++ Tạo ra node mới đặt ở đầu linked list.
++ Con trỏ trong node mới sẽ trỏ tới node head ban đầu.
++ Node head ban đầu được gán lại tới node mới được tạo ra.
+
+
+### Hàm insert
+
+```c
+/* Hàm insert dùng để thêm một node bất kỳ vào danh sách liên kết */
+
+void insert (Node **head, int data, int pos)
+{
+  Node *newNode = create_node(data);
+  Node *p = *head;
+    if (*head == NULL)
+    {
+        *head = newNode;
+    } else if (pos == 0) {   // kiểm tra xem node đó có phải node thứ 0
+      push_front(head,data);
+      }
+    else {
+
+      uint8_t count = 0;
+    while ((p != NULL) && (count != pos - 1))
+    {
+        count++;
+        p = p->nextNode;
+    }
+    if (count == pos - 1)
+    {
+        newNode->nextNode = p->nextNode; 
+        p->nextNode = newNode;  // point to the new node
+    }
+}
+}
+```
+
+### Hàm pop_front
+
+```c
+void pop_front(Node **head) {
+  if (*head == NULL) {
+    printf("The linked list is empty !\n");
+    return;
+  }
+    Node *temp = *head;  // khởi tạo biến tạm con trỏ gán cho Node đầu
+    (*head) = (*head)->nextNode; // cập nhật vị trí Node đầu tiên linked list
+    free(temp);
+   
+}
+```
+
+### Hàm erase
+
+```c
+/* Xoa 1 node o vi tri bat ky */
+void erase(Node **head, int pos) {
+  Node *p = *head; // tạo một con trỏ Node tới Node đầu
+   if (p == NULL) {  
+    printf("The linked list is empty !\n");
+    return;
+   } else if (pos == 0) {  // nếu vị trí cần xóa là vị trí đầu : 0
+     Node *tmp = *head; // tạo thêm con trỏ tạm gán cho địa chỉ Node đầu
+     *head = (*head)->nextNode;  
+     free(tmp);  
+     return;
+   } else {
+     uint8_t count = 0;
+     Node *f = NULL;
+     while (p->nextNode != NULL && count != pos - 1) {    // duyệt đến vị trí Node ở trước Node cần phải xóa
+       count++;
+       p = p->nextNode;
+     }
+     if (count != pos - 1 || p->nextNode == NULL) {  // kiểm tra điều kiện xem vị trí Node cần xóa có vượt quá số lượng Node hiện có hay không
+       printf("Position out of bounds !\n");
+       return;
+     }
+     else   // tiến hành xóa Node 
+     {
+     f = p->nextNode->nextNode;  // dùng một biến tạm lưu địa chỉ Node phía sau Node cần xóa
+     free(p->nextNode);  // giải phóng vùng nhớ Node cần xóa
+     p->nextNode = f;   // liên kết thành danh sách liên kết mới 
+     }
+   }
+}
+```
