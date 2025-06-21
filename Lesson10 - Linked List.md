@@ -8,8 +8,8 @@ __Cách triển khai linked list:__
 
 ## Bước 1: Xây dựng từng node (được xem là 1 linked list)
 + malloc : cấp phát động vùng nhớ.
-+ gán dữ liệu vào. (struct)
-+ khởi tạo con trỏ. (struct)
++ gán dữ liệu vào (struct).
++ khởi tạo con trỏ (struct).
 
 ## Bước 2: Liên kết các node (liên kết thành 1 linked list)
 + gán các giá trị cho con trỏ để liên kết các node.
