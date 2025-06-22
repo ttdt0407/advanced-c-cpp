@@ -59,4 +59,4 @@ __Các key-value có thể là chuỗi, số, mảng, v.v.__
 
 ```
 
-___Mảng JSON không bị ràng buộc về kiểu dữ liệu, mỗi phần tử đều có thể khác nhau về kiểu dữ liệu.__
+__Mảng JSON không bị ràng buộc về kiểu dữ liệu, mỗi phần tử đều có thể khác nhau về kiểu dữ liệu.__
