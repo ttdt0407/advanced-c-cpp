@@ -58,5 +58,6 @@ __Các key-value có thể là chuỗi, số, mảng, v.v.__
 ]
 
 ```
-
 __Mảng JSON không bị ràng buộc về kiểu dữ liệu, mỗi phần tử đều có thể khác nhau về kiểu dữ liệu.__
+__Sự khác biệt chủ yếu giữa JSON và struct hay union là ở chỗ, JSON linh hoạt hơn trong việc lưu trữ dữ liệu, dùng để trao đổi dữ liệu giữa nhiều hệ thống, dễ đọc dễ, xử lý.__
+
