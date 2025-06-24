@@ -61,3 +61,92 @@ __Các key-value có thể là chuỗi, số, mảng, v.v.__
 __Mảng JSON không bị ràng buộc về kiểu dữ liệu, mỗi phần tử đều có thể khác nhau về kiểu dữ liệu.__
 __Sự khác biệt chủ yếu giữa JSON và struct hay union là ở chỗ, JSON linh hoạt hơn trong việc lưu trữ dữ liệu, dùng để trao đổi dữ liệu giữa nhiều hệ thống, dễ đọc dễ, xử lý.__
 
+## Cách sử dụng trong C
+
+__Ta sử dụng enum để có thể liệt kê ra các kiểu dữ liệu có thể nhận: số, chuỗi, đúng/sai, đối tượng json hay mảng json.__
+
+```c
+typedef enum
+{
+    JSON_BOOLEAN,
+    JSON_NUMBER,
+    JSON_STRING,
+    JSON_OBJECT,
+    JSON_ARRAY
+} JsonType;
+```
+
+__Sử dụng cấu trúc dữ liệu struct để lưu trữ dữ liệu JSON, lồng union ở bên trong.__
+
+```c
+typedef struct Json_value
+{
+    JsonType type;
+    union 
+    {
+        int boolean; // true/false
+        int num;     // gia tri so thuc
+        char *string;
+
+        struct {
+            struct Json_value *value;  // de quy de xac dinh dac diem tung phan tu
+            size_t count;    // dem so luong phan tu
+        } array;
+
+        struct 
+        {
+            struct Json_value *value;
+            char **key;    // la mot con tro den cac chuoi, hay la mang cac chuoi.
+            size_t count;
+        } object;
+    } value;
+
+} Json_value;
+```
+
++ Sử dụng union để tiết kiệm vùng nhớ.
+
+
+__Ví dụ xây dựng dữ liệu JSON dưới dạng mảng.__
+
+```c
+int main (void)
+{   
+    // Json: [50.345, true, [50,"abc"]]
+
+    // Cấp phát động vùng nhớ để lưu trữ tạm thời trước khi biết chính xác size
+    Json_value *json_str = (Json_value*) malloc(sizeof(Json_value));
+    json_str->type = JSON_ARRAY;
+    json_str->value.array.count = 3;
+
+    // Cấp phát bổ sung vùng nhớ cho các phần tử trong mảng
+    json_str->value.array.value = (Json_value *)malloc(sizeof(Json_value) * json_str->value.array.count);
+
+    // Lặp lại tương tự với các phần tử trong mảng
+    
+    // Phần tử thứ 0
+    json_str->value.array.value[0].type = JSON_NUM;
+    json_str->value.array.value[0].value.num = 50.345;
+
+    // Phần tử thứ 1
+    json_str->value.array.value[1].type = JSON_BOOLEAN;
+    json_str->value.array.value[1].value.boolean = 1;
+
+    // Phần tử thứ 2 là mảng chứa 2 phần tử con
+    json_str->value.array.value[2].type = JSON_ARRAY;
+    json_str->value.array.value[2].value.array.count = 2;
+
+    // Cấp phát vùng nhớ cho mảng chứa 2 phần tử con
+    json_str->value.array.value[2].value.array.value = (Json_value *)malloc(json_str->value.array.value[2].value.array.count * sizeof(Json_value));
+
+    // Phần tử con thứ 0 trong mảng (phần tử thứ 2.0)
+    json_str->value.array.value[2].value.array.value[0].type = JSON_NUM;
+    json_str->value.array.value[2].value.array.value[0].value.num = 50; 
+
+    // phần tử con thứ 1 trong mảng (phần tử thứ 2.1)
+    json_str->value.array.value[2].value.array.value[1].type = JSON_STRING;
+    json_str->value.array.value[2].value.array.value[1].value.string = "abc";
+
+    return 0;
+}
+```
