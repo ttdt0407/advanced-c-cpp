@@ -107,7 +107,7 @@ typedef struct Json_value
 + Sử dụng union để tiết kiệm vùng nhớ.
 
 
-__Ví dụ xây dựng dữ liệu JSON dưới dạng mảng.__
+### Ví dụ xây dựng dữ liệu JSON dưới dạng mảng
 
 ```c
 int main (void)
@@ -146,6 +146,114 @@ int main (void)
     // phần tử con thứ 1 trong mảng (phần tử thứ 2.1)
     json_str->value.array.value[2].value.array.value[1].type = JSON_STRING;
     json_str->value.array.value[2].value.array.value[1].value.string = "abc";
+
+    return 0;
+}
+```
+
+### Mô phỏng sử dụng JSON dưới dạng Object có chứa mảng 
+
+```c
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+typedef enum
+{
+    JSON_NUM,
+    JSON_STR,
+    JSON_BOOLEAN,
+    JSON_NULL,
+    JSON_ARR,
+    JSON_OBJECT
+} Type;
+
+typedef struct Json_Value
+{
+    /* data */
+
+    Type type;
+
+    union {
+        int num;
+        char *str;
+        int bool;
+
+        struct {
+            int count;
+            struct Json_Value *value;
+
+        } array;
+
+        struct {
+            int count;
+            struct Json_Value *value;
+            char **key;
+        } object;
+    } value;
+} Json_Value;
+
+
+int main (int argc, char *argv[])
+{ 
+    Json_Value *string;
+    
+    // Du lieu can truyen co dinh dang sau:
+    /*{
+    "name": "John",
+    "age": 38,
+    "isStudent": false,
+    "grades": [2,3,2,1]
+    }*/
+
+    // Cap phat vung nho ban dau cho bien co kieu Json_Value
+    string = (Json_Value *)malloc(sizeof(Json_Value));
+
+    string->type = JSON_OBJECT;
+    string->value.object.count = 4;
+
+    // Cap phat bo sung sau khi da biet duoc so luong phan tu
+    string->value.object.value = (Json_Value *)malloc(string->value.object.count * sizeof(Json_Value));
+    string->value.object.key = (char **)malloc(string->value.object.count * sizeof(Json_Value));
+
+    // Tao cap key-value 1:
+    string->value.object.key[0] = "name";
+    string->value.object.value[0].type = JSON_STR;
+    string->value.object.value[0].value.str = "John";
+
+    // Tao cap key-value 2:
+    string->value.object.key[1] = "age";
+    string->value.object.value[1].type = JSON_NUM;
+    string->value.object.value[1].value.num = 38;
+
+    // Tao cap key value 3
+    string->value.object.key[2] = "isStudent";
+    string->value.object.value[2].type = JSON_BOOLEAN;
+    string->value.object.value[2].value.bool = 1;
+    
+    // Tao cap key value 4
+    string->value.object.key[3] = "grades";
+    string->value.object.value[3].type = JSON_ARR;
+
+    // Cap phat dong cho phan tu mang con
+    string->value.object.value[3].value.array.count = 4;
+    string->value.object.value[3].value.array.value = (Json_Value *)malloc(string->value.object.value[3].value.array.count * sizeof(Json_Value));
+
+    // Cap phat cho phan tu con dau
+    string->value.object.value[3].value.array.value[0].type = JSON_NUM;
+    string->value.object.value[3].value.array.value[0].value.num = 2;
+
+    // Cap phat cho phan tu con thu 1
+    string->value.object.value[3].value.array.value[1].type = JSON_NUM;
+    string->value.object.value[3].value.array.value[1].value.num = 3;
+
+    // Cap phat cho phan tu con thu 2
+    string->value.object.value[3].value.array.value[2].type = JSON_NUM;
+    string->value.object.value[3].value.array.value[2].value.num = 2;
+
+    // Cap phat cho phan tu con cuoi
+    string->value.object.value[3].value.array.value[3].type = JSON_NUM;
+    string->value.object.value[3].value.array.value[3].value.num = 1;
 
     return 0;
 }
