@@ -1,14 +1,15 @@
 # Bài 14: Class
 
-## 1. Class trong Cpp
+## 1. Khái niệm
 
 __Trong Cpp, từ khóa "class" được sử dụng để định nghĩa một lớp, là một cấu trúc dữ liệu tự định nghĩa có thể chứa dữ liệu và các hàm liên quan.__
 __Là nền tảng của lập trình hướng đối tượng trong Cpp.__
-
+<img src = "https://www.simplilearn.com/ice9/free_resources_article_thumb/Classes_in_C%2B%2B_Example9.PNG" width = "500" height = "350">
 - Khác biệt với các kiểu CTDL tự định nghĩa ở trong C như struct hoặc union, class không thể sử dụng typedef.
 - Có thể chứa biến hoặc hàm.
 
-## 2. Phạm vi truy cập của class trong Cpp
+
+## 2. Phạm vi truy cập (public)
 
 __Là cách quy định mức độ truy cập của các thành viên (biến và phương thức) trong một lớp.__
 
