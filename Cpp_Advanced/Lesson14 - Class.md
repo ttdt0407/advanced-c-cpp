@@ -4,7 +4,10 @@
 
 __Trong Cpp, từ khóa "class" được sử dụng để định nghĩa một lớp, là một cấu trúc dữ liệu tự định nghĩa có thể chứa dữ liệu và các hàm liên quan.__
 __Là nền tảng của lập trình hướng đối tượng trong Cpp.__
+
+
 <img src = "https://www.simplilearn.com/ice9/free_resources_article_thumb/Classes_in_C%2B%2B_Example9.PNG" width = "500" height = "350">
+
 - Khác biệt với các kiểu CTDL tự định nghĩa ở trong C như struct hoặc union, class không thể sử dụng typedef.
 - Có thể chứa biến hoặc hàm.
 
