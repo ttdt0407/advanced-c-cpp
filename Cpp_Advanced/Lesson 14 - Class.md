@@ -12,7 +12,7 @@ __Là nền tảng của lập trình hướng đối tượng trong Cpp.__
 - Có thể chứa biến hoặc hàm.
 
 
-## 2. Phạm vi truy cập (Acces modifier)
+## 2. Phạm vi truy cập (Access modifier)
 
 __Là cách quy định mức độ truy cập của các thành viên (biến và hàm) trong cùng một lớp.__
 
@@ -204,7 +204,6 @@ int main ()
 ```
 
 - Truyền tham số vào mỗi khi khởi tạo một giá trị mới.
-- 
 
 ### 3.3. Constructor có tham số được khởi tạo sẵn
 
@@ -334,6 +333,104 @@ int main ()
 }
 ```
 
-## 5. Static Property
+## 5. Static
+
+__Từ khóa static có thể được sử dụng cho property hoặc method.__
+
+
+## 5.1. Static property
+__Khi một property khai báo với từ khóa static, thì tất cả object cùng sử dụng địa chỉ của property này.__  
+
+```cpp
+class HinhChuNhat{
+    public:
+        double chieuDai;
+        double chieuRong;
+        static int var;
+};
+   
+int HinhChuNhat::var;
+
+int main(){
+    HinhChuNhat hinh1;
+    HinhChuNhat hinh2;
+    HinhChuNhat hinh3;
+
+    cout << "address of chieu dai: " << &hinh1.chieuDai << '\n';
+    cout << "address of chieu dai: " << &hinh2.chieuDai << '\n';
+    cout << "address of chieu dai: " << &hinh3.chieuDai << '\n';
+
+    cout << "address of var: " << &hinh1.var << '\n';
+    cout << "address of var: " << &hinh2.var << '\n';
+    cout << "address of var: " << &hinh3.var << '\n';
+    return 0;
+}
+
+```
+__Ta dễ thấy được rằng: biến var có từ khóa static được gọi từ 3 object có chung địa chỉ và giá trị. Tức là, 3 đối tượng trên đang sử dụng chung một biến, chung giá trị và chung vùng nhớ.__
+
+
+## 5.2. Static method
+
+- Method được khởi tạo với từ khóa static sẽ có những đặc điểm sau:
+    + Không cần khởi tạo đối tượng để gọi. Tức là có thể gọi trực tiếp từ class.
+        ```cpp
+        class SinhVien
+        {
+            public:
+                string name;
+                int id;
+                int age;
+                double gpa;
+
+                SinhVien(string _name, int _age, int _id, double _gpa);
+
+                ~SinhVien();
+                static void create();
+                void display();
+
+                static int x;
+        };
+            int main(int argc, char* argv[])
+        {
+            SinhVien::display();   // display không phải là static method nên sẽ báo lỗi
+            SinhVien::create();   // create được khởi tạo là static method nên có thể gọi trực tiếp.
+        }
+        ```
+        
+    + Không thể truy cập các property hoặc method thành viên không phải là static.
+
+    + Method này có thể được truy cập bằng cách sử dụng tên class và dấu ::.
+    ```cpp
+    SinhVien::create();
+    ```  
+
+# 6. This pointer
+
+__Là một con trỏ ẩn (ẩn danh) có sẵn trong mọi hàm thành viên (method) của class.__
+
+__This pointer trỏ đến đối tượng hiện tại của class.__
+
+```cpp
+class SinhVien {
+private:
+    string name;
+
+public:
+    void setName(string name) {
+        this->name = name; // Phân biệt: biến thành viên = tham số truyền vào
+    }
+};
+```
+- Trong ví dụ trên, `this->name` trỏ đến biến thành viên `name` của đối tượng hiện tại, trong khi `name` là tham số được truyền vào hàm `setName`.
+- Điều này rất hữu ích khi tên biến thành viên và tham số hàm trùng nhau, giúp tránh nhầm lẫn.
+
+
+- This pointer có các đặc điểm sau:
+    + Chỉ xuất hiện trong hàm thành viên. Không có trong hàm tĩnh (static method).
+    + Trỏ đến đối tượng hiện tại của class.
+    + Có kiểu con trỏ đến class hiện tại, trong class Person thì this có kiểu là Person*. Nên có thể truy cập được đến các thành viên của class.
+    + Là constant pointer, không thể thay đổi địa chỉ của nó, giá trị con trỏ luôn trỏ đến đối tượng hiện tại.
+    + Có thể sử dụng để truy cập các thành viên của class, bao gồm cả biến và hàm.
 
 
