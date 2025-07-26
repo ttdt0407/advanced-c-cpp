@@ -2,6 +2,7 @@
 
 ## 15.1. Giới thiệu
 ___OOP (Object-Oriented Programming) là một phương pháp lập trình dựa trên các đối tượng, giúp tổ chức mã nguồn một cách hiệu quả và dễ bảo trì.__
+
 ___Trong C++, OOP được hỗ trợ thông qua các khái niệm như lớp (class), đối tượng (object), kế thừa (inheritance), đa hình (polymorphism) và đóng gói (encapsulation).__
 
 ## 15.2. Encapsulation (Tính đóng gói)
@@ -254,4 +255,56 @@ int main()
 
     return 0;
 }
+```
+
+
+## 15.4. Inheritance (Tính kế thừa)
+
+__Ta có ví dụ sau:__
+
+```cpp
+
+
+class SinhVien
+{
+    public:
+        string ten;
+        int id;
+        string chuyenNganh;
+};
+
+class HocSinh
+{
+    public:
+        string ten;
+        int id;
+        string lop;
+};
+
+class GiaoVien
+{
+    public:
+        string ten;
+        int id;
+        string chuyenMon;
+};
+
+```
+
+__Liệu có thể nào gộp các lớp này lại với nhau không? Câu trả lời là có, ta sẽ sử dụng tính kế thừa để làm điều này.__
+
+- Tính kế thừa (inheritance) là khả năng tái sử dụng lại các property và method của một lớp cha (base class) trong một lớp con (derived class) và mở rộng thêm các tính năng. Điều này giúp giảm thiểu mã lặp lại và tăng tính tái sử dụng của mã nguồn.
+
+- Có 3 kiểu kế thừa là public, protected và private. Những property và method của lớp cha sẽ được kế thừa vào lớp con với quyền truy cập tương ứng.
+
+- Kiểu kế thừa (public, protected, private) sẽ quyết định phạm vi truy cập của các thành phần được kế thừa — tức là ảnh hưởng đến việc lớp con nhìn thấy và sử dụng chúng như thế nào. Riêng các thành phần private của lớp cha thì không được kế thừa trực tiếp, nên lớp con không thể truy cập hay thay đổi phạm vi truy cập của chúng. Tuy nhiên, nếu lớp cha cung cấp các hàm public hoặc protected để truy cập vào private, thì lớp con vẫn có thể sử dụng gián tiếp thông qua các hàm đó.
+
+```cpp
+class Cha {
+    // Thuộc tính và phương thức lớp cha
+};
+
+class Con : public Cha {
+    // Kế thừa Cha theo kiểu public
+};
 ```
