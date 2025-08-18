@@ -177,6 +177,7 @@ class TheTichHinhHopChuNhat
         int chieu_rong = 0;
         int chieu_cao = 0;
         long long the_tich = 0;
+
         void TinhTheTich(int chieu_dai, int chieu_rong, int chieu_cao)
         {
             this->the_tich = (long long)chieu_dai * chieu_rong * chieu_cao;
@@ -307,4 +308,230 @@ class Cha {
 class Con : public Cha {
     // Kế thừa Cha theo kiểu public
 };
+```
+
+
+
+```c
+
+// /*********************************************
+// * Viết chương trình thể hiện tính kế thừa    
+// **********************************************/
+
+class DoiTuong {
+
+    protected:
+        string ten;
+        int id;
+
+    public:
+        DoiTuong() {  
+            static int ID = 1;
+            id = ID;
+            ID++;
+        }
+
+        void setName(string _ten){
+            // check chuỗi nhập vào
+            ten = _ten;
+        }
+
+        void display(){
+            cout << "ten: " << ten << endl;
+            cout << "id: " << id << endl;
+        }
+};
+
+class SinhVien : public DoiTuong{
+    protected:
+        string chuyenNganh;
+
+    public:
+        void setChuyenNganh(string _nganh){
+            chuyenNganh = _nganh;
+        }
+
+        void display(){ // override
+
+            DoiTuong::display();  // tái sử dụng và mở rộng
+            cout << "chuyen nganh" << chuyenNganh << endl;
+        }
+};
+
+class HocSinh : public DoiTuong{
+    protected:
+        string lop;
+   
+    public:
+        void setLop(string _lop){
+            lop = _lop;
+        }
+
+        void display(){ // override
+
+            DoiTuong::display();  // tái sử dụng và mở rộng
+            cout << "lop" << lop << endl;
+        }
+};
+
+class GiaoVien : public DoiTuong{
+    protected:
+        string chuyenMon;
+
+    public:
+        void setChuyenMon(string _mon){
+            chuyenMon = _mon;
+        }
+
+        void display(){ // override
+
+            DoiTuong::display();  // tái sử dụng và mở rộng
+            cout << "chuyen mon" << chuyenMon << endl;
+        }
+};
+
+int main(int argc, char const *argv[])
+{
+    // SinhVien sv1;
+
+    // sv1.ten = "Hoang";
+    // sv1.id = 1;
+    // sv1.chuyenNganh = "DTVT";
+
+    // cout << "ID: " << sv1.id << endl;
+    // cout << "Ten: " << sv1.ten << endl;
+    // cout << "Chuyen nganh: " << sv1.chuyenNganh << endl;
+
+    SinhVien sv1;
+    sv1.setName("Trung");
+    sv1.setChuyenNganh("TDH");
+    sv1.display();
+
+    cout << endl;
+
+    HocSinh hs1;
+    hs1.setName("Tuan");
+    hs1.setLop("12A1");
+    hs1.display();
+
+    cout << endl;
+
+    GiaoVien gv1;
+    gv1.setName("Hoang");
+    gv1.setChuyenMon("Toan");
+    gv1.display();
+    return 0;
+}
+```
+### 15.4.1. Kế thừa public 
+
+
+- Các thành viên public của lớp cha sẽ trở thành public trong lớp con.
+- Các thành viên protected của lớp cha sẽ trở thành protected trong lớp con.
+- Các thành viên private của lớp cha sẽ không được kế thừa trong lớp con, nhưng có thể truy cập thông qua các phương thức public hoặc protected của lớp cha.
+
+```cpp
+class Cha {
+private:
+    int soBiMat;
+
+public:
+    Cha() {
+        soBiMat = 42;
+    }
+
+    int laySoBiMat() {  // phương thức public truy cập private
+        return soBiMat;
+    }
+
+protected:
+    void doiGiaTri(int x) {
+        soBiMat = x;
+    }
+};
+
+class Con : public Cha {
+public:
+    void hienThi() {
+        // cout << soBiMat; // lỗi: không truy cập trực tiếp biến private
+        cout << "Gia tri bi mat la: " << laySoBiMat() << endl; // đúng cách
+    }
+
+    void thayDoiGiaTri(int x) {
+        doiGiaTri(x); //  được vì hàm protected của lớp cha
+    }
+};
+```
+
+### 15.4.2. Kế thừa protected
+
+- Các thành viên public của lớp cha sẽ trở thành protected trong lớp con.
+- Các thành viên protected của lớp cha sẽ trở thành protected trong lớp con.
+- Các thành viên private của lớp cha sẽ không được kế thừa trong lớp con, nhưng có thể truy cập thông qua các phương thức public hoặc protected của lớp cha.
+
+### 15.4.3. Kế thừa private
+
+- Các thành viên public của lớp cha sẽ trở thành private trong lớp con.
+- Các thành viên protected của lớp cha sẽ trở thành private trong lớp con.
+- Các thành viên private của lớp cha sẽ không được kế thừa trong lớp con, nhưng có thể truy cập thông qua các phương thức public hoặc protected của lớp cha.
+
+### 15.4.4. Đa kế thừa
+
+- Đa kế thừa là một class có thể kế thừa từ nhiều class khác nhau. Giúp kết hợp nhiều tính năng khác nhau.
+
+```cpp
+
+class A {
+    class Control : public Sensor, public Communication
+}
+```
+
+- Khi nhiều lớp cha có phương thức hoặc thuộc tính trùng tên, việc gọi chúng từ lớp con có thể gây nhầm lẫn.
+- Khi một lớp con được kế thừa từ hai lớp cha, mà hai lớp cha này đều cùng được kế thừa từ một lớp khác thì tạo ra cấu trúc hình thoi, gọi là vấn đề __diamond__.
+
+```cpp
+class A{
+    public:
+        A(){ cout << "Constructor A\n"; }
+
+        void hienThiA(){ cout << "Day la lop A\n"; }
+};
+
+class B : public A{
+    public:
+        B(){ cout << "Constructor B\n"; }
+
+        void hienThiB(){ cout << "Day la lop B\n"; }
+};
+
+class C : public A {
+    public:
+        C(){ cout << "Constructor C\n"; }
+
+        void hienThiC(){ cout << "Day la lop C\n"; }
+};
+
+class D : public B, public C{
+    public:
+        D(){ cout << "Constructor D\n"; }
+
+        void hienThiD(){ cout << "Day la lop D\n"; }
+};
+
+int main() {
+    D d;
+
+    // d.hienThiA(); // wrong
+
+    // Gọi phương thức từ lớp A qua B và C
+    d.B::hienThiA(); // Gọi hàm hienThiA từ lớp A thông qua B
+    d.C::hienThiA(); // Gọi hàm hienThiA từ lớp A thông qua C
+
+    // d.hienThiB();
+    // d.hienThiC();
+    // d.hienThiD();
+
+    return 0;
+}
+
 ```
