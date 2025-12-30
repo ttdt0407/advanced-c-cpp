@@ -144,7 +144,7 @@ int get(Array_t *arr, int index)
 {
     if (index >= 0 && index < arr->length)
     {
-        return arr->[index];
+        return arr->A[index];
     }
 
     return ERROR_NOTFOUND;
@@ -154,7 +154,7 @@ int set(Array_t *arr, int val, int index)
 {
     int result = ERROR_OK;
 
-    if (index >= 0 && index < arr.length)
+    if (index >= 0 && index < arr->length)
     {
         arr->A[index] = val;
     }
