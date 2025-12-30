@@ -1,11 +1,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
-/**********************************************************************
- * Check type of character
- *********************************************************************/
-
- /* Trả về 1 nếu kí tự c là chữ số hoặc chữ cái, ngược lại trả về 0 */
+/**
+ * @brief Kiểm tra xem ký tự có phải là chữ cái hoặc chữ số không
+ * 
+ * @param c Ký tự cần kiểm tra
+ * @return int Trả về 1 nếu c là chữ cái (a-z, A-Z) hoặc chữ số (0-9), ngược lại trả về 0
+ */
 int my_isalnum(char c)
 {
     int result = 0;
@@ -18,7 +19,12 @@ int my_isalnum(char c)
     return result;
 }
 
-/* Trả về 1 nếu kí tự c là chữ số, ngược lại trả về 0 */
+/**
+ * @brief Kiểm tra xem ký tự có phải là chữ số không
+ * 
+ * @param c Ký tự cần kiểm tra
+ * @return int Trả về 1 nếu c là chữ số (0-9), ngược lại trả về 0
+ */
 int my_isdigit(char c)
 {
     int result = 0;
@@ -30,7 +36,12 @@ int my_isdigit(char c)
     return result;
 }
 
-/* Trả về 1 nếu kí tự c là chữ cái in thường, ngược lại trả về 0 */
+/**
+ * @brief Kiểm tra xem ký tự có phải là chữ cái in thường không
+ * 
+ * @param c Ký tự cần kiểm tra
+ * @return int Trả về 1 nếu c là chữ cái in thường (a-z), ngược lại trả về 0
+ */
 int my_islower(char c)
 {
     int result = 0;
@@ -43,7 +54,12 @@ int my_islower(char c)
     return result;
 }
 
-/* Trả về 1 nếu kí tự c là chữ cái in hoa, ngược lại trả về 0 */
+/**
+ * @brief Kiểm tra xem ký tự có phải là chữ cái in hoa không
+ * 
+ * @param c Ký tự cần kiểm tra
+ * @return int Trả về 1 nếu c là chữ cái in hoa (A-Z), ngược lại trả về 0
+ */
 int my_isupper(char c)
 {
     int result = 0;
@@ -56,7 +72,12 @@ int my_isupper(char c)
     return result;
 }
 
-/* Trả về 1 nếu kí tự c là chữ cái, ngược lại trả về 0 */
+/**
+ * @brief Kiểm tra xem ký tự có phải là chữ cái không
+ * 
+ * @param c Ký tự cần kiểm tra
+ * @return int Trả về 1 nếu c là chữ cái (a-z, A-Z), ngược lại trả về 0
+ */
 int my_isalpha(char c)
 {
     int result = 0;
@@ -69,7 +90,12 @@ int my_isalpha(char c)
     return result;
 }
 
-/* Trả về mã ASCII của kí tự in thường tương ứng với kí tự c */
+/**
+ * @brief Chuyển đổi ký tự in hoa thành ký tự in thường
+ * 
+ * @param c Ký tự cần chuyển đổi
+ * @return int Trả về mã ASCII của ký tự in thường tương ứng với c, nếu c không phải chữ in hoa thì trả về c
+ */
 int my_tolower(char c)
 {
     int result = c;
@@ -82,7 +108,12 @@ int my_tolower(char c)
     return result;
 }
 
-/* Trả về mã ascii của kí tự in hoa tương ứng với kí tự c */
+/**
+ * @brief Chuyển đổi ký tự in thường thành ký tự in hoa
+ * 
+ * @param c Ký tự cần chuyển đổi
+ * @return int Trả về mã ASCII của ký tự in hoa tương ứng với c, nếu c không phải chữ in thường thì trả về c
+ */
 int my_toupper(char c)
 {
     int result = c;
@@ -95,7 +126,12 @@ int my_toupper(char c)
     return result;
 }
 
-/* Trả về 1 nếu kí tự c là dấu cách, ngược lại trả về 0 */
+/**
+ * @brief Kiểm tra xem ký tự có phải là ký tự khoảng trắng không
+ * 
+ * @param c Ký tự cần kiểm tra
+ * @return int Trả về 1 nếu c là ký tự khoảng trắng (dấu cách, tab, xuống dòng, v.v.), ngược lại trả về 0
+ */
 int my_isspace(char c)
 {
     int result = 0;
@@ -112,8 +148,12 @@ int my_isspace(char c)
  * Function with strings in C
  *********************************************************************/
 
-
- /* Sử dụng để trả về số lượng ký tự trong xâu, không tính kí tự null ở cuối xâu */
+/**
+ * @brief Tính độ dài của chuỗi
+ * 
+ * @param c Con trỏ đến chuỗi cần tính độ dài
+ * @return uint32_t Số lượng ký tự trong chuỗi, không tính ký tự null (\0) ở cuối chuỗi
+ */
 uint32_t my_strlen(char *c)
 {
     int index = 0;
@@ -126,7 +166,13 @@ uint32_t my_strlen(char *c)
     return index;
 }
 
-/* So sánh 2 xâu theo thứ tự ASCII */
+/**
+ * @brief So sánh hai chuỗi theo thứ tự từ điển (ASCII)
+ * 
+ * @param s Con trỏ đến chuỗi thứ nhất
+ * @param t Con trỏ đến chuỗi thứ hai
+ * @return int Trả về giá trị âm nếu s < t, 0 nếu s == t, giá trị dương nếu s > t
+ */
 int my_strcmp(char *s, char *t)
 {
     int index = 0;
@@ -143,6 +189,14 @@ int my_strcmp(char *s, char *t)
     return s[index] - t[index];
 }
 
+/**
+ * @brief So sánh tối đa n ký tự đầu tiên của hai chuỗi
+ * 
+ * @param s Con trỏ đến chuỗi thứ nhất
+ * @param t Con trỏ đến chuỗi thứ hai
+ * @param n Số lượng ký tự tối đa cần so sánh
+ * @return int Trả về giá trị âm nếu s < t, 0 nếu s == t, giá trị dương nếu s > t
+ */
 int my_strncmp(char *s, char *t , size_t n)
 {
     int index = 0;
@@ -165,6 +219,13 @@ int my_strncmp(char *s, char *t , size_t n)
     return s[index] - t[index];
 }
 
+/**
+ * @brief So sánh hai chuỗi không phân biệt chữ hoa chữ thường
+ * 
+ * @param s Con trỏ đến chuỗi thứ nhất
+ * @param t Con trỏ đến chuỗi thứ hai
+ * @return int Trả về giá trị âm nếu s < t, 0 nếu s == t, giá trị dương nếu s > t (không phân biệt hoa thường)
+ */
 int my_strcmpi(char *s, char *t)
 {
     int index = 0;
@@ -184,6 +245,13 @@ int my_strcmpi(char *s, char *t)
     return my_tolower(s[index]) - my_tolower(t[index]);
 }
 
+/**
+ * @brief Sao chép chuỗi nguồn vào chuỗi đích
+ * 
+ * @param dest Con trỏ đến chuỗi đích (nơi lưu kết quả)
+ * @param source Con trỏ đến chuỗi nguồn cần sao chép
+ * @return char* Con trỏ đến chuỗi đích
+ */
 char *my_strcpy(char *dest, char *source)
 {
     int src_index = 0;
@@ -198,6 +266,14 @@ char *my_strcpy(char *dest, char *source)
     return dest;
 }
 
+/**
+ * @brief Sao chép tối đa n ký tự từ chuỗi nguồn vào chuỗi đích
+ * 
+ * @param dest Con trỏ đến chuỗi đích (nơi lưu kết quả)
+ * @param source Con trỏ đến chuỗi nguồn cần sao chép
+ * @param n Số lượng ký tự tối đa cần sao chép
+ * @return char* Con trỏ đến chuỗi đích
+ */
 char *my_strncpy(char *dest, char *source, size_t n)
 {
     int src_index = 0;
@@ -215,7 +291,13 @@ char *my_strncpy(char *dest, char *source, size_t n)
     return dest;
 }
 
-
+/**
+ * @brief Nối chuỗi nguồn vào cuối chuỗi đích
+ * 
+ * @param dest Con trỏ đến chuỗi đích
+ * @param src Con trỏ đến chuỗi nguồn cần nối
+ * @return char* Con trỏ đến chuỗi đích sau khi nối
+ */
 char* my_strcat(char *dest, char *src)
 {
     int dst_index = 0;
@@ -236,6 +318,14 @@ char* my_strcat(char *dest, char *src)
     return dest;
 }
 
+/**
+ * @brief Nối tối đa n ký tự từ chuỗi nguồn vào cuối chuỗi đích
+ * 
+ * @param dest Con trỏ đến chuỗi đích
+ * @param source Con trỏ đến chuỗi nguồn cần nối
+ * @param n Số lượng ký tự tối đa cần nối
+ * @return char* Con trỏ đến chuỗi đích sau khi nối
+ */
 char *my_strncat(char *dest, char *source, size_t n)
 {
     int dst_index = 0;
@@ -256,7 +346,13 @@ char *my_strncat(char *dest, char *source, size_t n)
     return dest;
 }
 
-
+/**
+ * @brief Tìm kiếm chuỗi con đầu tiên trong chuỗi chính
+ * 
+ * @param s Con trỏ đến chuỗi chính
+ * @param t Con trỏ đến chuỗi con cần tìm
+ * @return char* Con trỏ đến vị trí đầu tiên của chuỗi con trong chuỗi chính, hoặc NULL nếu không tìm thấy
+ */
 char *my_strstr(char *s, char *t)
 {
     int len1 = my_strlen(s);

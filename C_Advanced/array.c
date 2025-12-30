@@ -166,6 +166,48 @@ int set(Array_t *arr, int val, int index)
     return result;
 }
 
+void reverse(Array_t *arr)
+{
+    for (int i = 0; i < arr->length / 2; i++)
+    {
+        swap(&arr->A[i], &arr->A[arr->length - i]);
+    }
+}
+
+
+Array_t *merge(Array_t *arr1, Array_t *arr2)
+{
+    int k = 0;
+    int i = 0;
+    int j = 0;
+
+    Array_t *pStruct = (Array_t *)malloc(sizeof(Array_t));
+
+    while((i < arr1->length) && (j < arr2->length))
+    {
+        if (arr1->A[i] < arr2->A[j])
+        {
+            pStruct->A[k++] = arr1->A[i++];
+        }
+        else
+        {
+            pStruct->A[k++] = arr2->A[j++];
+        }
+    }
+
+    while(i < arr1->length)
+    {
+        pStruct->A[k++] = arr1->A[i++];
+    }
+
+    while (j < arr2->length)
+    {
+        pStruct->A[k++] = arr2->A[j++];
+    }
+
+    pStruct->length = arr1->length + arr2->length;
+}
+
 
 
 
