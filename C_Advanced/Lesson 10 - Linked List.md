@@ -132,7 +132,6 @@ void push_back(Node **head, int data)
 
 + Con trỏ p chỉ copy địa chỉ của con trỏ head, chứ không làm thay đổi giá trị thực sự của nó.
 
-
 ### Hàm display
 
 ```c
@@ -176,8 +175,6 @@ int size(Node *head)
 }
 
 ```
-
-
 ### Hàm pop_back
 
 ```c
