@@ -289,7 +289,7 @@ __String được biểu diễn dưới dạng cấu trúc dữ liệu array, c�
 + Nếu dùng dấu nháy kép thì mặc định trình biên dịch sẽ thêm vào cuối chuỗi một kí tự null, còn nếu khai báo trong dấu ngoặc đơn như hàng dưới thì ta cần phải thêm kí tự null thủ công.
 
 
-### 14.2.1. Tự triển khai thư viện string.h cơ bản
+### 14.2.1. Tự triển khai thư viện <string.h> cơ bản
 
 ```c
 #include <stdint.h>
